@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     
     // MARK: - Private Properties
     
-    private var locationManager: CLLocationManager?
+    private let viewModel = ViewModel()
     
     private lazy var mapView: MenuView = {
         let mapView = MenuView()
@@ -42,8 +42,6 @@ class ViewController: UIViewController {
         
         mapView.mapView.delegate = self
     }
-    
-    
 }
 
 extension ViewController: MKMapViewDelegate {
