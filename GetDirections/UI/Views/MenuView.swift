@@ -14,8 +14,6 @@ class MenuView: UIView {
     
     // MARK: - Public Properties
     
-    public var locationManager: CLLocationManager?
-    
     public lazy var mapView: MKMapView = {
        let view = MKMapView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +53,7 @@ class MenuView: UIView {
     
     private lazy var getDirectionButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.text = "Get Direction"
+        button.setTitle("Get Direction", for: .normal)
         button.setTitleColor(.red, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         menuView.addSubview(button)
@@ -64,7 +62,7 @@ class MenuView: UIView {
     
     private lazy var navigationButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.text = "Get Direction"
+        button.setTitle("Start Navigation", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         menuView.addSubview(button)
@@ -91,18 +89,18 @@ class MenuView: UIView {
             menuView.centerXAnchor.constraint(equalTo: mapView.centerXAnchor),
             menuView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
             
-            directionLabel.topAnchor.constraint(equalTo: menuView.topAnchor, constant: 70),
+            directionLabel.topAnchor.constraint(equalTo: menuView.topAnchor, constant: 60),
             directionLabel.centerXAnchor.constraint(equalTo: menuView.centerXAnchor),
             directionLabel.leadingAnchor.constraint(equalTo: menuView.leadingAnchor, constant: 10),
             
             textField.topAnchor.constraint(equalTo: directionLabel.bottomAnchor, constant: 20),
             textField.leadingAnchor.constraint(equalTo: menuView.leadingAnchor, constant: 10),
-            textField.widthAnchor.constraint(equalToConstant: 230),
-            textField.heightAnchor.constraint(equalToConstant: 30),
+            textField.widthAnchor.constraint(equalToConstant: 240),
+            textField.heightAnchor.constraint(equalToConstant: 35),
             
             getDirectionButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
             getDirectionButton.rightAnchor.constraint(equalTo: menuView.rightAnchor, constant: -5),
-            getDirectionButton.widthAnchor.constraint(equalToConstant: 90),
+            getDirectionButton.widthAnchor.constraint(equalToConstant: 150),
             getDirectionButton.heightAnchor.constraint(equalToConstant: 30),
             
             
