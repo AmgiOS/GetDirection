@@ -47,7 +47,8 @@ class ViewController: UIViewController {
     
     private func setLocation() {
         viewModel.checkLocationServices()
-        viewModel.updateUserLocationDelegate = self
+//        viewModel.updateUserLocationDelegate = self
+        mapView.mapView.setRegion(viewModel.currentLocation ?? MKCoordinateRegion(), animated: true)
     }
 }
 
@@ -55,9 +56,9 @@ extension ViewController: MKMapViewDelegate {
     
 }
 
-extension ViewController: UpdateUserLocationDelegate {
-    func didUpdateUserLocation(region: MKCoordinateRegion) {
-        mapView.mapView.setRegion(region, animated: true)
-    }
-}
-
+/// Enable this method for have location user in real time
+//extension ViewController: UserLocationDelegate {
+//    func didUpdateUserLocation(region: MKCoordinateRegion) {
+//        mapView.mapView.setRegion(region, animated: true)
+//    }
+//}

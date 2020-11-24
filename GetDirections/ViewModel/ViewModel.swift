@@ -9,13 +9,13 @@ import Foundation
 import MapKit
 import CoreLocation
 
-protocol UpdateUserLocationDelegate {
+protocol UserLocationDelegate {
     func didUpdateUserLocation(region: MKCoordinateRegion)
 }
 
 class ViewModel: NSObject {
     
-    typealias UserLocation = UpdateUserLocationDelegate
+    typealias UserLocation = UserLocationDelegate
     
     // MARK: - Public Properties
     
@@ -24,6 +24,7 @@ class ViewModel: NSObject {
     }()
     
     public var updateUserLocationDelegate: UserLocation?
+    public var currentLocation: MKCoordinateRegion?
     
     // MARK: - Private Properties
     
@@ -55,7 +56,6 @@ class ViewModel: NSObject {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse:
-            locationManager.requestLocation()
             guard let userLocation = locationManager.location?.coordinate else { print("Error When localize user"); return }
             centerViewToUserLocation(center: userLocation)
         default:
@@ -64,7 +64,9 @@ class ViewModel: NSObject {
     }
     
     fileprivate func centerViewToUserLocation(center: CLLocationCoordinate2D) {
-        updateUserLocationDelegate?.didUpdateUserLocation(region: MKCoordinateRegion(center: center, latitudinalMeters: CLLocationDistance(locationDistance), longitudinalMeters: CLLocationDistance(locationDistance)))
+        let location = MKCoordinateRegion(center: center, latitudinalMeters: CLLocationDistance(locationDistance), longitudinalMeters: CLLocationDistance(locationDistance))
+        currentLocation = location
+        updateUserLocationDelegate?.didUpdateUserLocation(region: location)
     }
 }
 
