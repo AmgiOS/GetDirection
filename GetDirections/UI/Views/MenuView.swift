@@ -95,7 +95,7 @@ class MenuView: UIView {
             
             textField.topAnchor.constraint(equalTo: directionLabel.bottomAnchor, constant: 20),
             textField.leadingAnchor.constraint(equalTo: menuView.leadingAnchor, constant: 10),
-            textField.widthAnchor.constraint(equalToConstant: 240),
+            textField.widthAnchor.constraint(equalToConstant: 200),
             textField.heightAnchor.constraint(equalToConstant: 35),
             
             getDirectionButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),

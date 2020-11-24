@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
+        setLocation()
     }
     
     // MARK: - Private Methods
@@ -41,9 +42,22 @@ class ViewController: UIViewController {
         ])
         
         mapView.mapView.delegate = self
+        mapView.mapView.showsUserLocation = true
+    }
+    
+    private func setLocation() {
+        viewModel.checkLocationServices()
+        viewModel.updateUserLocationDelegate = self
     }
 }
 
 extension ViewController: MKMapViewDelegate {
     
 }
+
+extension ViewController: UpdateUserLocationDelegate {
+    func didUpdateUserLocation(region: MKCoordinateRegion) {
+        mapView.mapView.setRegion(region, animated: true)
+    }
+}
+
