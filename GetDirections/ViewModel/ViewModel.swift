@@ -25,13 +25,13 @@ class ViewModel: NSObject {
     
     public var updateUserLocationDelegate: UserLocation?
     public var currentLocation: MKCoordinateRegion?
+    public var route: MKRoute?
+    public var showMapRoute = false
     
     // MARK: - Private Properties
     
     private var setps = [MKRoute.Step]()
     private var stepCounter = 0
-    private var route: MKRoute?
-    private var showMapRoute = false
     private var navigationStarted = false
     private var locationDistance = 500
     
@@ -45,6 +45,14 @@ class ViewModel: NSObject {
             handleAutorizationStatus(locationManager: locationManager, status: locationManager.authorizationStatus)
         } else {
             print("Location services are not enabled")
+        }
+    }
+    
+    public func geocodeAddressString(address: String) {
+        CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
+            guard error == nil else { print(error?.localizedDescription ?? ""); return }
+            guard let placemarks = placemarks, let placemark = placemarks.first, let location = placemark.location else { return }
+            self.mapRoute(destinationCoordinate: location.coordinate)
         }
     }
     
@@ -67,6 +75,26 @@ class ViewModel: NSObject {
         let location = MKCoordinateRegion(center: center, latitudinalMeters: CLLocationDistance(locationDistance), longitudinalMeters: CLLocationDistance(locationDistance))
         currentLocation = location
         updateUserLocationDelegate?.didUpdateUserLocation(region: location)
+    }
+    
+    fileprivate func mapRoute(destinationCoordinate: CLLocationCoordinate2D) {
+        guard let sourceCoordinate = locationManager.location?.coordinate else { return }
+        
+        let sourceItem = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinate))
+        let destinationItem = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinate))
+        
+        let routeRequest = MKDirections.Request()
+        routeRequest.source = sourceItem
+        routeRequest.destination = destinationItem
+        routeRequest.transportType = .walking
+        
+        let directions = MKDirections(request: routeRequest)
+        directions.calculate { (response, error) in
+            guard error == nil else { print(error?.localizedDescription ?? ""); return }
+            
+            guard let response = response, let route = response.routes.first else { return }
+            self.route = route
+        }
     }
 }
 

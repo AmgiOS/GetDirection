@@ -33,6 +33,14 @@ class ViewController: UIViewController {
     
     // MARK: - Private Methods
     
+    @objc private func tapGestureDirectionButton() {
+       getDirection()
+    }
+    
+    @objc private func tapGestureNavigationButton() {
+        
+    }
+    
     private func setUpView() {
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -43,12 +51,29 @@ class ViewController: UIViewController {
         
         mapView.mapView.delegate = self
         mapView.mapView.showsUserLocation = true
+        mapView.getDirectionButton.addTarget(self, action: #selector(tapGestureDirectionButton), for: .touchUpInside)
+        mapView.navigationButton.addTarget(self, action: #selector(tapGestureNavigationButton), for: .touchUpInside)
     }
     
     private func setLocation() {
         viewModel.checkLocationServices()
 //        viewModel.updateUserLocationDelegate = self
         mapView.mapView.setRegion(viewModel.currentLocation ?? MKCoordinateRegion(), animated: true)
+    }
+    
+    private func getDirection() {
+        guard let text = mapView.textField.text else { return }
+        viewModel.showMapRoute = true
+        mapView.textField.endEditing(true)
+        
+        viewModel.geocodeAddressString(address: text)
+        addOverlayInMapView()
+    }
+    
+    private func addOverlayInMapView() {
+        guard let overlay = viewModel.route?.polyline else { return }
+        mapView.mapView.addOverlay(overlay)
+        mapView.mapView.setVisibleMapRect(overlay.boundingMapRect, edgePadding: UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30), animated: true)
     }
 }
 

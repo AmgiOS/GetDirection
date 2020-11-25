@@ -21,13 +21,40 @@ class MenuView: UIView {
         return view
     }()
     
+    public lazy var getDirectionButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Get Direction", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        menuView.addSubview(button)
+        return button
+    }()
+    
+    public lazy var navigationButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Start Navigation", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        menuView.addSubview(button)
+        return button
+    }()
+    
+    public lazy var textField: UITextField = {
+       let textField = UITextField()
+        textField.placeholder = "Enter Your Destination"
+        textField.borderStyle = .roundedRect
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        menuView.addSubview(textField)
+        return textField
+    }()
+    
     // MARK: - Private Properties
     
     private lazy var menuView: UIView = {
        let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
-        mapView.addSubview(view)
+        addSubview(view)
         return view
     }()
     
@@ -42,33 +69,6 @@ class MenuView: UIView {
         return label
     }()
     
-    private lazy var textField: UITextField = {
-       let textField = UITextField()
-        textField.placeholder = "Enter Your Destination"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        menuView.addSubview(textField)
-        return textField
-    }()
-    
-    private lazy var getDirectionButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Get Direction", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        menuView.addSubview(button)
-        return button
-    }()
-    
-    private lazy var navigationButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Start Navigation", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        menuView.addSubview(button)
-        return button
-    }()
-    
     // MARK: - LifeCycle
     
     override func layoutSubviews() {
@@ -80,14 +80,14 @@ class MenuView: UIView {
     
     private func setUIComponents() {
         NSLayoutConstraint.activate([
-            mapView.topAnchor.constraint(equalTo: topAnchor),
+            mapView.topAnchor.constraint(equalTo: menuView.bottomAnchor),
             mapView.centerXAnchor.constraint(equalTo: centerXAnchor),
             mapView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mapView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            menuView.topAnchor.constraint(equalTo: mapView.topAnchor),
-            menuView.centerXAnchor.constraint(equalTo: mapView.centerXAnchor),
-            menuView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            menuView.topAnchor.constraint(equalTo: topAnchor),
+            menuView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            menuView.leadingAnchor.constraint(equalTo: leadingAnchor),
             
             directionLabel.topAnchor.constraint(equalTo: menuView.topAnchor, constant: 60),
             directionLabel.centerXAnchor.constraint(equalTo: menuView.centerXAnchor),
