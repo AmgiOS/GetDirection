@@ -42,6 +42,8 @@ class ViewController: UIViewController {
     }
     
     private func setUpView() {
+        view.endEditing(true)
+        
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -78,10 +80,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: MKMapViewDelegate {
-    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .systemBlue
+        return renderer
+    }
 }
 
-/// Enable this method for have location user in real time
+/// Enable this protocol and delegate  for have user location in real time
 //extension ViewController: UserLocationDelegate {
 //    func didUpdateUserLocation(region: MKCoordinateRegion) {
 //        mapView.mapView.setRegion(region, animated: true)
